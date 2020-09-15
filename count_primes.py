@@ -1,19 +1,27 @@
 class Solution:
     def countPrimes(self, n: int) -> int:
-        if n == 0 or n == 1 or n == 2:
-            return 0
-        elif n == 3:
-            return 1
-        count = 1
-        idx = 2
-        prime_check = [True]*n
-        prime_check[0] = prime_check[1] = False
+        # Uses the Sieve of Eratosthenes
 
-        while(idx < n):
-            if prime_check[idx]:
-                multiple = 2
-                while(idx*multiple < n):
-                    prime_check[idx*multiple] = False
-                    multiple += 1
-            idx += 1
-        return sum(prime_check)
+        # Create array "prime[0..n]" and initialize
+        # all entries to true. A value in prime[i] will 
+        # become false if i is NOT a prime.
+        prime = [True for i in range(n + 1)]
+        p = 2
+        while (p * p <= n):
+
+            # If prime[p] is not changed, then it is a prime
+            if (prime[p] == True):
+
+                # Update all multiples of p (this is the sieve part!)
+                for i in range(p * 2, n + 1, p):
+                    prime[i] = False
+            p += 1
+        prime[0]= False
+        if (n >= 1):
+            prime[1]= False
+        total = 0
+        for p in range(n + 1):
+            if (prime[p]) and (p != n):
+                print(p)
+                total += 1
+        return(total)
